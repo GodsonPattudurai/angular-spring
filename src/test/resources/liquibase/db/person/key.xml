@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE databaseChangeLog [
+        <!ENTITY DataTypeMapper SYSTEM "../DataTypeMapper.xml">
+        ]>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	&DataTypeMapper;
+	
+	<changeSet id="Constant" author="Godson">
+        <createTable tableName="key">
+        	<column name="id" type="${type.uuid}">
+                <constraints nullable="false" />
+            </column>
+            <column name="value" type="${type.varchardef}">
+                <constraints nullable="false" />
+            </column>
+            <column name="category" type="${type.uuid}">
+                <constraints nullable="false" />
+            </column>
+           
+            <column name="is_active" type="${type.boolean}" defaultValue="1">
+            	<constraints nullable="false" />
+            </column>
+            <column name="created_by"  type="${type.uuid}"></column>
+            <column name="created_on" type="${type.timestamp}"></column>
+            <column name="updated_on" type="${type.timestamp}"></column>
+            <column name="updated_by" type="${type.uuid}"/>
+        </createTable>
+        <addPrimaryKey
+            columnNames="id"
+            constraintName="pk_constant_key"
+            schemaName="healthcare"
+            tableName="key"/>
+        <addForeignKeyConstraint baseColumnNames="value"
+            baseTableName="key"
+            constraintName="fk_constant_key"
+            referencedColumnNames="id"
+            referencedTableName="category"/>
+    </changeSet>
+</databaseChangeLog>
